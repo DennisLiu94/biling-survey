@@ -1,6 +1,8 @@
 package evaluation;
 
+import edu.illinois.cs.cogcomp.core.datastructures.Pair;
 import edu.illinois.cs.cogcomp.core.io.LineIO;
+import edu.illinois.cs.cogcomp.core.stats.Counter;
 import edu.illinois.cs.cogcomp.core.utilities.commands.CommandDescription;
 import edu.illinois.cs.cogcomp.core.utilities.commands.InteractiveShell;
 import org.apache.commons.collections.MultiMap;
@@ -9,6 +11,11 @@ import org.apache.commons.collections.map.MultiValueMap;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.io.*;
+import java.util.*;
+//import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class MainClass {
 
@@ -24,7 +31,7 @@ public class MainClass {
 		// String en_vectors = MYDIR+"cca_vectors/uniq.en-"+lang+".0.5.min0_orig1_projected.txt";
 		// String fr_vectors = MYDIR+"cca_vectors/uniq.en-"+lang+".0.5.min0_orig2_projected.txt";
 
-		String dict = "/home/upadhya3/bi-embedding/en."+lang+".dict" ; //"/home/upadhya3/wikt2dict/en.fr.dict";
+		String dict = "/home/jackbai/corpus/biling-survey/evalution/bldict/en."+lang+".dict" ; //"/home/upadhya3/wikt2dict/en.fr.dict";
 		List<String> lines = LineIO.read(dict, "utf8");
 //		Map<String,String> gold = new HashMap<>();
 		MultiMap gold =new MultiValueMap();
@@ -114,7 +121,7 @@ public class MainClass {
 		List<Pair<String,String>> candidates = new ArrayList<>();
 		Map<String,Pair<String,Double>> eng2frCounts = new HashMap<>();
 		Map<String,Pair<String,Double>> fr2engCounts = new HashMap<>();
-		for(Pair<String,String>ii:cc.getSortedItemsHighestFirst())
+		for(Pair<String,String> ii:cc.getSortedItemsHighestFirst())
 		{
 			double cint=cc.getCount(ii);
 			if(cint>minc)

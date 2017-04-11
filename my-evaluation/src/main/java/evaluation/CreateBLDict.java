@@ -76,15 +76,17 @@ public class CreateBLDict {
 		Map<String,float[]> wordEmbeddings = new HashMap<>();
 
 		String line;
+		int ilen = -1;
 		while ((line = in.readLine()) != null) {
 			line = line.trim();
 			if (line.equals("")) {
 				continue;
 			}
-
 			String fields[] = line.split("\\s+");
-
+			if(ilen<0) ilen = fields.length;
+			if(fields.length!=ilen) continue;
 			String word = fields[0];
+
 			float[] features = new float[fields.length - 1];
 			float len=0.0f;
 			for (int idx = 1; idx < fields.length; idx++) {
@@ -107,13 +109,14 @@ public class CreateBLDict {
 		}
 
 		int size = -1;
-
+		int index = 0;
 		for (String word : wordEmbeddings.keySet()) {
+			index++;
 			if (size < 0) {
 				size = wordEmbeddings.get(word).length;
 			}
-			if (size != wordEmbeddings.get(word).length) {
-				throw new IOException("Different words have different embedding dimensionality for word: "+word +" in file: "+embedFile);
+			if (size != wordEmbeddings.get(word).length){
+				throw new IOException("Different words have different embedding dimensionality for word: "+ word+ " " +index+" size1 = "+size+"size2 = "+ wordEmbeddings.get(word).length+" in file: "+embedFile);
 			}
 		}
 		return wordEmbeddings;
